@@ -4,7 +4,7 @@ let connection;
 
 if (process.env.NODE_ENV === "PRODUCTION") {
   connection = new Sequelize(`${process.env.DATABASE_URL}?sslmode=require`, {
-    url: process.env.DATABASE_URI,
+    url: process.env.DATABASE_URL,
     dialect: "postgres",
     dialectOptions: {
       ssl: {
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
     },
   });
 } else {
-  connection = new Sequelize(process.env.DB_URI);
+  connection = new Sequelize(process.env.DATABASE_URL);
   console.log("DB connection successful");
 }
 
