@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "localdb": "docker rm -f master32-mysql ; docker run --rm --name master32-mysql -dp 3306:3306 -v mysql-config:/etc -v mysql-data:/var/lib/mysql mysql/mysql-server:latest",
     "start": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "poststart": "docker stop master32-mysql"
+    "poststart": "docker stop master32-mysql",
+    "glog": "git log --decorate --graph --oneline --all"
 
   },
   "repository": {
