@@ -14,4 +14,14 @@ router.post("/", async (req, res) => {
     .json({ msg: `${req.body.name} has been added to the database` });
 });
 
+//========================get all users==================//
+
+router.get("/", async (req, res) => {
+  const user = await User.findAll({
+    where: {},
+  });
+  console.log(user);
+  res.status(200).json({ user });
+});
+
 module.exports = router;
