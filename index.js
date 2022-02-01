@@ -8,6 +8,7 @@ const connection = require("./connection");
 
 const userRouter = require("./routes/user");
 const landingRouter = require("./routes/landing");
+const adminRouter = require("./routes/admin");
 
 const { User } = require("./models/user");
 
@@ -28,6 +29,7 @@ app.use(cors());
 //route to user and landing
 app.use("/user", userRouter);
 app.use("/", landingRouter);
+app.use("/", adminRouter);
 
 //require string and registersstrategy
 passport.use("register", registerStrategy);
