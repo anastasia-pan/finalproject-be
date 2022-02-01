@@ -27,9 +27,10 @@ app.use(express.json());
 app.use(cors());
 
 //route to user and landing
+app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/", landingRouter);
-app.use("/", adminRouter);
+
 
 //require string and registersstrategy
 passport.use("register", registerStrategy);
