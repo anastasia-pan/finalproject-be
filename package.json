@@ -1,0 +1,41 @@
+{
+  "name": "final-project-be",
+  "version": "1.0.0",
+  "description": "Hello World",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "localdb": "docker rm -f master32-mysql ; docker run --rm --name master32-mysql -dp 3306:3306 -v mysql-config:/etc -v mysql-data:/var/lib/mysql mysql/mysql-server:latest",
+    "start": "./node_modules/nodemon/bin/nodemon.js index.js",
+    "poststart": "docker stop master32-mysql"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anastasia-pan/finalproject-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anastasia-pan/finalproject-be/issues"
+  },
+  "homepage": "https://github.com/anastasia-pan/finalproject-be#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.15.0"
+  },
+  "devdependencies": {
+    "nodemon": "^2.0.15",
+    "mysql2": "^2.3.3"
+  }
+}
