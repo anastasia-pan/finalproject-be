@@ -10,6 +10,7 @@ const mappings = { usernameField: "name", passwordField: "password" };
 
 //function which hashes password and creates user object
 const register = async (name, password, next) => {
+  console.log("authit")
   try {
     if (!name || !password) {
       throw new Error("User info is missing");
