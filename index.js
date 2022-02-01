@@ -17,6 +17,8 @@ const {
   verifyStrategy,
 } = require("./middleware/auth");
 
+console.log(process.env.DATABASE_URL);
+
 const app = express();
 
 app.use(express.json());
@@ -32,8 +34,8 @@ passport.use("register", registerStrategy);
 passport.use("login", loginStrategy);
 passport.use(verifyStrategy);
 
-app.listen(process.env.PORT, () => {
-  connection.authenticate();
-  User.sync({ alter: true });
+app.listen(process.env.PORT, async () => {
+  await connection.authenticate();
+  await User.sync({ alter: true });
   console.log("App is online");
 });
