@@ -7,10 +7,11 @@ const cors = require("cors");
 const connection = require("./connection");
 
 const userRouter = require("./routes/user");
-const landingRouter = require("./routes/landing");
+const testRouter = require("./routes/test");
 const adminRouter = require("./routes/admin");
 
 const { User } = require("./models/user");
+const { Totem } = require("./models/totem");
 
 const {
   registerStrategy,
@@ -29,8 +30,7 @@ app.use(cors());
 //route to user and landing
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
-app.use("/", landingRouter);
-
+app.use("/", testRouter);
 
 //require string and registersstrategy
 passport.use("register", registerStrategy);
@@ -40,5 +40,6 @@ passport.use(verifyStrategy);
 app.listen(process.env.PORT, async () => {
   await connection.authenticate();
   await User.sync({ alter: true });
+  await Totem.sync({ alter: true });
   console.log("App is online");
 });
