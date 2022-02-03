@@ -33,7 +33,7 @@ app.use(cors());
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/totem", totemRouter);
-app.use("/", testRouter);
+app.use("/test", testRouter);
 
 //require string and registersstrategy
 passport.use("register", registerStrategy);
