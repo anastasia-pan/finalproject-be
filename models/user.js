@@ -1,6 +1,8 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const connection = require("../connection");
 const { setLower, firstUpper } = require("./modelHelpers");
+const { Totem } = require("./totem");
+const { Location } = require("./location");
 
 //User schema, table of users with passwords
 const User = connection.define(
