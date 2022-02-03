@@ -1,11 +1,12 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const connection = require("../connection");
 const { setLower, firstUpper } = require("./modelHelpers");
-const { Location } = require("./location");
+const { Totem } = require("./totem");
 const { User } = require("./user");
 
-const Totem = connection.define(
-  "Totem",
+//User schema, table of users with passwords
+const Location = connection.define(
+  "Location",
   {
     name: {
       type: DataTypes.STRING,
@@ -18,12 +19,8 @@ const Totem = connection.define(
         this.setDataValue("name", setLower(value));
       },
     },
-    date: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
   },
   { indexed: [{ unique: true, fields: ["name"] }] }
 );
-
-module.exports = { Totem };
+//Book schema, table of books with passwords
+module.exports = { Location };

@@ -9,8 +9,6 @@ const session = { session: false };
 //import model schema
 const { User } = require("../models/user");
 
-
-
 //===================================== verify user ======================================//
 
 const profile = (req, res, next) => {
@@ -27,7 +25,6 @@ router.get("/", passport.authenticate("jwt", session), profile);
 
 //takes the authenticated req, checks for user and returns a response
 const register = async (req, res, next) => {
-  
   try {
     req.user.name
       ? res.status(201).json({ msg: "user registered", user: req.user })
@@ -123,6 +120,3 @@ router.patch("/:id", async (req, res) => {
 });
 
 module.exports = router;
-
-    
-  
