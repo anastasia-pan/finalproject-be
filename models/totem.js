@@ -22,6 +22,18 @@ const Totem = connection.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    createdBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   { indexed: [{ unique: true, fields: ["name"] }] }
 );

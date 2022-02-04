@@ -30,11 +30,21 @@ router.get("/findbydate/:date", async (req, res) => {
   res.status(200).json({ totemsreturned });
 });
 
+//===================================== fetch all totems by userID======================================//
+
+router.get("/findbyuser/:id", async (req, res) => {
+  const totemsreturned = await Totem.findAll({
+    where: { createdBy: req.params.id },
+  });
+  res.status(200).json({ totemsreturned });
+});
+
 //===================================== make a totem =====================================//
-router.post("/", async (req, res) => {
+router.post("/:userid", async (req, res) => {
   const totem = await Totem.create({
     name: req.body.name,
     date: req.body.date,
+    createdBy: req.params.userid,
   });
   res.status(201).json(`${totem.name} is created`);
 });
