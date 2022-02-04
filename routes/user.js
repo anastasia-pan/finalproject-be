@@ -8,6 +8,7 @@ const session = { session: false };
 
 //import model schema
 const { User } = require("../models/user");
+const { Totem } = require("../models/totem");
 
 //===================================== verify user ======================================//
 
@@ -117,6 +118,15 @@ router.patch("/:id", async (req, res) => {
     }
   );
   res.status(200).json(`${req.params.id} updated`);
+});
+
+//===================================== fetch all totems created by user ======================================//
+
+router.get("/totem/:id", async (req, res) => {
+  const totemsreturned = await Totem.findAll({
+    where: { createdBy: req.params.id },
+  });
+  res.status(200).json({ totemsreturned });
 });
 
 module.exports = router;

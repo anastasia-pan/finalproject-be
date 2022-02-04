@@ -10,10 +10,12 @@ const userRouter = require("./routes/user");
 const testRouter = require("./routes/test");
 const adminRouter = require("./routes/admin");
 const totemRouter = require("./routes/totem");
+const favouritesRouter = require("./routes/userFavourites");
 
 const { User } = require("./models/user");
 const { Totem } = require("./models/totem");
 const { Location } = require("./models/location");
+const { UserFavourites } = require("./models/userFavourites");
 
 const {
   registerStrategy,
@@ -34,6 +36,7 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/totem", totemRouter);
 app.use("/test", testRouter);
+app.use("/favourites", favouritesRouter);
 
 //require string and registersstrategy
 passport.use("register", registerStrategy);
@@ -45,5 +48,6 @@ app.listen(process.env.PORT, async () => {
   await User.sync({ alter: true });
   await Totem.sync({ alter: true });
   await Location.sync({ alter: true });
+  await UserFavourites.sync({ alter: true });
   console.log("App is online");
 });
