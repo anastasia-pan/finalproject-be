@@ -44,7 +44,7 @@ router.post("/:userid", async (req, res) => {
   const totem = await Totem.create({
     name: req.body.name,
     date: req.body.date,
-    createdBy: req.params.userid,
+    UserId: req.params.userid,
   });
   res.status(201).json(`${totem.name} is created`);
 });

@@ -30,12 +30,11 @@ const Totem = connection.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    createdBy: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
   },
   { indexed: [{ unique: true, fields: ["name"] }] }
 );
+
+User.hasMany(Totem);
+Location.hasMany(Totem);
 
 module.exports = { Totem };
