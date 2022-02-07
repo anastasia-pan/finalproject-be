@@ -6,14 +6,14 @@ const { Sequelize } = require("sequelize");
 
 //THE PATH TO ALL THESE ROUTES IS BASEURL/totem
 
-//================================get all totems ====================================//
+//=====================get all createdBy admin totems ====================//
 
 router.get("/getall", async (req, res) => {
-  const totems = await Totem.findAll({});
-  res.status(200).json({ totems });
+  const totems = await Totem.findAll({ where: { createdBy: "admin" } });
+  res.status(200).json(totems);
 });
 
-//===================================== fetch one totem ======================================//
+//============================ fetch one totem ==============================//
 router.get("/:id", async (req, res) => {
   console.log(req);
   const totem = await Totem.findOne({ where: { id: req.params.id } });

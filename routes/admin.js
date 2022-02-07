@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { Totem } = require("../models/totem");
 
-// =================================================== bulk find ============================================///
+// ============================================ bulk find ============================================///
 router.get("/totem", async (req, res) => {
   const allTotems = await Totem.findAll();
   res.status(200).json({ allTotems });
