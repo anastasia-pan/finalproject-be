@@ -8,7 +8,8 @@ const session = { session: false };
 
 //import model schema
 const { User } = require("../models/user");
-const { Totem } = require("../models/totem");
+const { UserFavourites } = require("../models/userFavourites");
+const { Totem } = require("../models/userFavourites");
 
 //===================================== verify user ======================================//
 
@@ -80,6 +81,19 @@ router.post("/login", login);
 
 router.get("/getall", async (req, res) => {
   const user = await User.findAll({});
+  console.log(user);
+  res.status(200).json({ user });
+});
+
+//========================get all favourites===========================//
+
+router.get("/:id", async (req, res) => {
+  const user = await User.findOne({ where: { id: req.params.id } });
+  const favourites = await UserFavourites.findAll({
+    where: { userID: req.params.id },
+  });
+  const totems = await Totem.findAll;
+
   console.log(user);
   res.status(200).json({ user });
 });
