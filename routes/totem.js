@@ -13,7 +13,7 @@ router.get("/getall", async (req, res) => {
   res.status(200).json(totems);
 });
 
-//============================ fetch one totem ==============================//
+//============================ fetch one totem by id ==============================//
 router.get("/:id", async (req, res) => {
   console.log(req);
   const totem = await Totem.findOne({ where: { id: req.params.id } });
