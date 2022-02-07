@@ -23,7 +23,7 @@ const Totem = connection.define(
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(2000),
       allowNull: true,
     },
     image: {
@@ -36,5 +36,6 @@ const Totem = connection.define(
 
 User.hasMany(Totem);
 Location.hasMany(Totem);
+Totem.belongsTo(User);
 
 module.exports = { Totem };
