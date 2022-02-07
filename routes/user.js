@@ -87,15 +87,22 @@ router.get("/getall", async (req, res) => {
 
 //========================get all favourites===========================//
 
-router.get("/:id", async (req, res) => {
+router.get("/favourites/:id", async (req, res) => {
   const user = await User.findOne({ where: { id: req.params.id } });
   const favourites = await UserFavourites.findAll({
     where: { userID: req.params.id },
   });
-  const totems = await Totem.findAll;
+  const totemslist = [];
+  for (i in favourites) {
+    totemslist.push(
+      await Totem.findOne({
+        where: { id: i.TotemId },
+      })
+    );
+  }
 
   console.log(user);
-  res.status(200).json({ user });
+  res.status(200).json(totemslist);
 });
 
 // =============================== delete one user ==================================================
@@ -117,14 +124,14 @@ router.get("/:id", async (req, res) => {
 
 //===================================== update user ======================================//
 //body sends entire object which replaces original user
-router.put("/:id", async (req, res) => {
+router.put("/updatedetails/:id", async (req, res) => {
   const updatedUser = await User.update(req.body, {
     where: { id: req.params.id },
   });
   res.status(200).json({ msg: updatedUser });
 });
 
-router.patch("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const updatedUser = await User.update(
     { name: req.body.name },
     {
@@ -140,7 +147,7 @@ router.get("/totem/:id", async (req, res) => {
   const totemsreturned = await Totem.findAll({
     where: { createdBy: req.params.id },
   });
-  res.status(200).json({ totemsreturned });
+  res.status(200).json(totemsreturned);
 });
 
 module.exports = router;
