@@ -82,7 +82,7 @@ router.post("/login", login);
 router.get("/getall", async (req, res) => {
   const user = await User.findAll({});
   console.log(user);
-  res.status(200).json({ user });
+  res.status(200).json(user);
 });
 
 //========================get all favourites===========================//
