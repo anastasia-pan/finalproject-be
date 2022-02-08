@@ -13,13 +13,24 @@ router.get("/:userid", async (req, res) => {
       UserId: req.params.userid,
     },
   });
-  res.status(200).json(favTotems);
+  let favouriteTotems = [];
+  for (let i of favTotems) {
+    const newTotem = await Totem.findOne({
+      where: { id: i.TotemId },
+    });
+    favouriteTotems.push(newTotem);
+  }
+  res.status(200).json(favouriteTotems);
 });
 //=============== add favourite to a user============ //
 router.post("/:userid/:totemid", async (req, res) => {
   //
-  const user = await User.findOne({ where: { id: req.params.userid } });
-  const totem = await Totem.findOne({ where: { id: req.params.totemid } });
+  const user = await User.findOne({
+    where: { id: parseInt(req.params.userid) },
+  });
+  const totem = await Totem.findOne({
+    where: { id: parseInt(req.params.totemid) },
+  });
 
   const favourite = await UserFavourites.create({
     UserId: user.id,
