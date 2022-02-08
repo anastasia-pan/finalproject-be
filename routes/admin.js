@@ -11,6 +11,7 @@ router.get("/totem/:user", async (req, res) => {
 });
 
 // ============================================ bulk find ============================================///
+
 router.get("/totem", async (req, res) => {
   const allTotems = await Totem.findAll({});
   res.status(200).json(allTotems);
