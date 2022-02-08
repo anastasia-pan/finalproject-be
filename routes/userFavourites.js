@@ -39,4 +39,15 @@ router.post("/:userid/:totemid", async (req, res) => {
   res.status(201).json(favourite);
 });
 
+//=============== delete favourite============ //
+router.delete("/:userid/:totemid", async (req, res) => {
+  const favourite = await UserFavourites.destroy({
+    where: {
+      UserId: req.params.userid,
+      TotemId: req.params.totemid,
+    },
+  });
+  res.status(201).json(favourite);
+});
+
 module.exports = router;

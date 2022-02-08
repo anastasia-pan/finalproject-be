@@ -3,7 +3,7 @@ const { Totem } = require("../models/totem");
 const { User } = require("../models/user");
 const { findOrAddLocation } = require("./helpers.js");
 
-// ============================================ bulk find all ============================================///
+// ============================================ bulk find all by user ============================================///
 router.get("/totem/:user", async (req, res) => {
   const allTotems = await Totem.findAll({
     where: { UserId: req.params.user },
@@ -49,13 +49,13 @@ router.delete("/", async (req, res) => {
 
 // =================================================== bulk destroy totems ============================================///
 router.delete("/totem", async (req, res) => {
-  await Totem.truncate();
+  await Totem.destroy({ where: {} });
   res.status(200).json({ msg: `They're all gone!` });
 });
 
 // =================================================== bulk destroy users ============================================///
 router.delete("/users", async (req, res) => {
-  await User.truncate();
+  await User.destroy({ where: {} });
   res.status(200).json({ msg: `They're all gone!` });
 });
 
