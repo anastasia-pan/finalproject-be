@@ -5,9 +5,10 @@ const { UserFavourites } = require("../models/userFavourites");
 const { Totem } = require("../models/totem");
 const { User } = require("../models/user");
 
-//=============== fetch all Totems via the Totem table============ //
+//=============== fetch all Totems by user id============ //
 router.get("/:userid", async (req, res) => {
   const favTotems = await UserFavourites.findAll({
+    //querying user favourites, pulling UserId column
     where: {
       UserId: req.params.userid,
     },
@@ -16,6 +17,7 @@ router.get("/:userid", async (req, res) => {
 });
 //=============== add favourite to a user============ //
 router.post("/:userid/:totemid", async (req, res) => {
+  //
   const user = await User.findOne({ where: { id: req.params.userid } });
   const totem = await Totem.findOne({ where: { id: req.params.totemid } });
 

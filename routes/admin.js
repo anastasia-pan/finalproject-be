@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { Totem } = require("../models/totem");
 const { User } = require("../models/user");
+const { findOrAddLocation } = require("./helpers.js");
 
 // ============================================ bulk find all ============================================///
 router.get("/totem/:user", async (req, res) => {
@@ -22,11 +23,19 @@ router.post("/totem", async (req, res) => {
   if (Array.isArray(req.body)) {
     const objects = [];
     for (let i of req.body) {
-      objects.push(await Totem.create({ ...i, UserId: user.id }));
+      let location = await findOrAddLocation(req.body.location);
+      objects.push(
+        await Totem.create({ ...i, UserId: user.id, LocationId: location.id })
+      );
     }
     res.status(201).json({ msg: "adminpostbulkcreatereached", objects });
   } else {
-    const object = await Totem.create({ ...req.body, UserId: user.id });
+    let location = await findOrAddLocation(req.body.location);
+    const object = await Totem.create({
+      ...req.body,
+      UserId: user.id,
+      LocationId: location.id,
+    });
     res.status(201).json({ msg: "adminpostbulkcreatereached", object });
   }
 });

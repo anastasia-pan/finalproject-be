@@ -2,9 +2,26 @@ const router = require("express").Router();
 
 //import model schema
 const { Totem } = require("../models/totem");
+const { Location } = require("../models/location");
 const { Sequelize } = require("sequelize");
 
+// const { findOrAddLocation } = require("./helpers.js");
+
 //THE PATH TO ALL THESE ROUTES IS BASEURL/totem
+
+const findOrAddLocation = async (locationparam) => {
+  const existinglocations = await Location.findAll({
+    where: { name: locationparam },
+  });
+  if (existinglocations.length === 1) {
+    let returnedlocation = existinglocations[0];
+    return returnedlocation;
+  }
+  let returnedlocation = await Location.create({
+    name: locationparam,
+  });
+  return returnedlocation;
+};
 
 //=====================get all createdBy admin totems ====================//
 
@@ -36,17 +53,20 @@ router.get("/findbyuser/:id", async (req, res) => {
   const totemsreturned = await Totem.findAll({
     where: { createdBy: req.params.id },
   });
-  res.status(200).json({ totemsreturned });
+  res.status(200).json(totemsreturned);
 });
 
 //===================================== make a totem =====================================//
 router.post("/:userid", async (req, res) => {
+  let returnedlocation = await findOrAddLocation(req.body.location);
+
   const totem = await Totem.create({
     name: req.body.name,
     date: req.body.date,
     UserId: req.params.userid,
+    LocationId: returnedlocation.id,
   });
-  res.status(201).json(`${totem.name} is created`);
+  res.status(201).json(totem);
 });
 
 // =============================== delete one totem ==================================================
@@ -89,6 +109,14 @@ router.patch("/updatedate/:id", async (req, res) => {
     }
   );
   res.status(201).json(`${req.params.id} updated with ${req.body.date}`);
+});
+
+////===================================== get user via totem ======================================//
+
+router.get("/getuser/:id", async (req, res) => {
+  const totem = await Totem.findOne({ where: { id: req.params.id } });
+  const user = await userFavourite.getUser();
+  res.status(200).json(totem, user);
 });
 
 module.exports = router;
