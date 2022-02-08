@@ -5,22 +5,12 @@ const { Totem } = require("../models/totem");
 const { Location } = require("../models/location");
 const { Sequelize } = require("sequelize");
 
-// const { findOrAddLocation } = require("./helpers.js");
+const { findOrAddLocation } = require("./helpers.js");
+const { User } = require("../models/user");
 
 //THE PATH TO ALL THESE ROUTES IS BASEURL/totem
-
-const findOrAddLocation = async (locationparam) => {
-  const existinglocations = await Location.findAll({
-    where: { name: locationparam },
-  });
-  if (existinglocations.length === 1) {
-    let returnedlocation = existinglocations[0];
-    return returnedlocation;
-  }
-  let returnedlocation = await Location.create({
-    name: locationparam,
-  });
-  return returnedlocation;
+const findAdmin = async () => {
+  adminuser = await User.findOne({ where: { name: "admin" } });
 };
 
 //=====================get all createdBy admin totems ====================//
@@ -117,6 +107,25 @@ router.get("/getuser/:id", async (req, res) => {
   const totem = await Totem.findOne({ where: { id: req.params.id } });
   const user = await userFavourite.getUser();
   res.status(200).json(totem, user);
+});
+
+////===================================== get totem via location ======================================//
+
+router.get("/location", async (req, res) => {
+  const locations = await Location.findAll({
+    where: { name: req.body.location },
+  });
+  let LocationId = null;
+  if (locations === 1) {
+    LocationId = locations[0].id;
+  } else {
+    LocationId = "location not returned";
+  }
+  const adminuser = await User.findOne({ where: { name: "admin" } });
+  const totem = await Totem.findAll({
+    where: Sequelize.and({ LocationId: LocationId }, { UserId: adminuser.id }),
+  });
+  res.status(200).json(totem);
 });
 
 module.exports = router;
