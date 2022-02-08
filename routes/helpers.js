@@ -1,15 +1,15 @@
 const { Location } = require("../models/location");
 
-const findOrAddLocation = async (locationparam) => {
+const findOrAddLocation = async (locationname) => {
   const existinglocations = await Location.findAll({
-    where: { name: locationparam },
+    where: { name: locationname },
   });
   if (existinglocations.length === 1) {
     let returnedlocation = existinglocations[0];
     return returnedlocation;
   }
   let returnedlocation = await Location.create({
-    name: locationparam,
+    name: locationname,
   });
   return returnedlocation;
 };

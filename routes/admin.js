@@ -22,10 +22,10 @@ router.post("/totem", async (req, res) => {
   const user = await User.findOne({ where: { name: "admin" } });
   if (Array.isArray(req.body)) {
     const objects = [];
-    for (let i of req.body) {
-      let location = await findOrAddLocation(req.body.location);
+    for (let obj of req.body) {
+      let location = await findOrAddLocation(obj.location);
       objects.push(
-        await Totem.create({ ...i, UserId: user.id, LocationId: location.id })
+        await Totem.create({ ...obj, UserId: user.id, LocationId: location.id })
       );
     }
     res.status(201).json({ msg: "adminpostbulkcreatereached", objects });

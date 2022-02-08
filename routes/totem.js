@@ -51,7 +51,7 @@ router.get("/findbydate/:date", async (req, res) => {
 
 router.get("/findbyuser/:id", async (req, res) => {
   const totemsreturned = await Totem.findAll({
-    where: { createdBy: req.params.id },
+    where: { UserId: parseInt(req.params.id) },
   });
   res.status(200).json(totemsreturned);
 });
@@ -63,7 +63,7 @@ router.post("/:userid", async (req, res) => {
   const totem = await Totem.create({
     name: req.body.name,
     date: req.body.date,
-    UserId: req.params.userid,
+    UserId: parseInt(req.params.userid),
     LocationId: returnedlocation.id,
   });
   res.status(201).json(totem);
