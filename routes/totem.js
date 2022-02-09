@@ -3,7 +3,9 @@ const router = require("express").Router();
 //import model schema
 const { Totem } = require("../models/totem");
 const { Location } = require("../models/location");
+const { User } = require("../models/user");
 const { Sequelize } = require("sequelize");
+const { user } = require("pg/lib/defaults");
 
 // const { findOrAddLocation } = require("./helpers.js");
 
@@ -23,10 +25,18 @@ const findOrAddLocation = async (locationparam) => {
   return returnedlocation;
 };
 
+//=====================get all totems ====================//
+
+router.get("/", async (req, res) => {
+  const totems = await Totem.findAll({});
+  res.status(200).json(totems);
+});
+
 //=====================get all createdBy admin totems ====================//
 
-router.get("/getall", async (req, res) => {
-  const totems = await Totem.findAll({ where: { createdBy: "admin" } });
+router.get("/getalladmin", async (req, res) => {
+  const user = await User.findOne({ where: { name: "admin" } });
+  const totems = await Totem.findAll({ where: { UserId: user.id } });
   res.status(200).json(totems);
 });
 
@@ -37,8 +47,17 @@ router.get("/:id", async (req, res) => {
   res.status(200).json(totem);
 });
 
+//============================ fetch one admin totem by name ==============================//
+router.get("/name/find", async (req, res) => {
+  const user = await User.findOne({ where: { name: "admin" } });
+  const totem = await Totem.findOne({
+    where: Sequelize.and({ UseriD: user.id }, { name: req.body.name }),
+  });
+  res.status(200).json(totem);
+});
+
 //===================================== fetch all totems by date======================================//
-router.get("/findbydate/:date", async (req, res) => {
+router.get("/date/find/:date", async (req, res) => {
   const totemsreturned = await Totem.findAll({
     where: { date: parseInt(req.params.date) },
   });
@@ -85,18 +104,6 @@ router.put("/:id", async (req, res) => {
     where: { id: req.params.id },
   });
   res.status(201).json({ msg: updatedTotem });
-});
-
-////===================================== update one  totem name by ID ======================================//
-
-router.patch("/updatename/:id", async (req, res) => {
-  const updatedTotem = await Totem.update(
-    { name: req.body.name },
-    {
-      where: { id: req.params.id },
-    }
-  );
-  res.status(201).json(`${req.params.id} updated with ${req.body.name}`);
 });
 
 ////===================================== update one  totem date by ID ======================================//
