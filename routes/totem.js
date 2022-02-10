@@ -71,17 +71,7 @@ router.get("/name/:name", async (req, res) => {
 //   res.status(200).json({ totemsreturned });
 // });
 
-//===================================== fetch all totems by date======================================//
-router.get("/date/order", async (req, res) => {
-  const adminuser = await User.findOne({
-    where: { name: "admin" },
-  });
-  const totemsreturned = await Totem.findAll({
-    where: { UserId: adminuser.id },
-    order: [["date", "ASC"]],
-  });
-  res.status(200).json(totemsreturned);
-});
+
 
 //===================================== fetch all totems by date======================================//
 router.get("/date/order", async (req, res) => {
@@ -108,7 +98,6 @@ router.get("/date/order/:userid", async (req, res) => {
   console.log(JSON.stringify(totemsreturned, null, 2));
   res.status(200).json(totemsreturned);
 });
-
 //===================================== fetch all totems by userID======================================//
 
 router.get("/findbyuser/:id", async (req, res) => {
@@ -127,6 +116,10 @@ router.post("/:userid", async (req, res) => {
     date: req.body.date,
     UserId: parseInt(req.params.userid),
     LocationId: returnedlocation.id,
+    description: req.body.description,
+    image: req.body.image,
+    illustration:req.body.illustration,
+    
   });
   res.status(201).json(totem);
 });

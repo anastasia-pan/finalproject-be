@@ -1,4 +1,5 @@
 require("dotenv").config();
+require 
 
 const express = require("express");
 const passport = require("passport");
@@ -22,6 +23,7 @@ const {
   loginStrategy,
   verifyStrategy,
 } = require("./middleware/auth");
+// const { FORCE } = require("sequelize/dist/lib/index-hints");
 
 const app = express();
 
@@ -46,6 +48,6 @@ app.listen(process.env.PORT, async () => {
   await User.sync({ alter: true });
   await Totem.sync({ alter: true });
   await Location.sync({ alter: true });
-  await UserFavourites.sync({ alter: true });
+  await UserFavourites.sync({ alter:true });
   console.log("App is online");
 });
