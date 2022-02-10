@@ -48,22 +48,30 @@ router.get("/:id", async (req, res) => {
 });
 
 //============================ fetch one admin totem by name ==============================//
-router.get("/name/find", async (req, res) => {
+router.get("/name/:name", async (req, res) => {
   const user = await User.findOne({ where: { name: "admin" } });
   const totem = await Totem.findOne({
-    where: Sequelize.and({ UseriD: user.id }, { name: req.body.name }),
+    where: Sequelize.and({ UseriD: user.id }, { name: req.params.name }),
   });
   res.status(200).json(totem);
 });
 
+// //===================================== fetch all totems by date======================================//
+// router.get("/date/find/:date", async (req, res) => {
+//   const totemsreturned = await Totem.findAll({
+//     where: { date: parseInt(req.params.date) },
+//   });
+//   console.log("111!!!!!");
+//   console.log(totemsreturned);
+//   res.status(200).json({ totemsreturned });
+// });
+
 //===================================== fetch all totems by date======================================//
-router.get("/date/find/:date", async (req, res) => {
+router.get("/date/order", async (req, res) => {
   const totemsreturned = await Totem.findAll({
-    where: { date: parseInt(req.params.date) },
+    order: [["date", "ASC"]],
   });
-  console.log("111!!!!!");
-  console.log(totemsreturned);
-  res.status(200).json({ totemsreturned });
+  res.status(200).json(totemsreturned);
 });
 
 //===================================== fetch all totems by userID======================================//
