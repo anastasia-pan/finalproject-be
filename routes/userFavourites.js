@@ -26,6 +26,7 @@ router.get("/:userid", async (req, res) => {
 //=============== add favourite to a user============ //
 router.post("/:userid/:totemid", async (req, res) => {
   console.log(req.params);
+  console.log(req.params.userid);
   const user = await User.findOne({
     where: { id: req.params.userid },
   });
