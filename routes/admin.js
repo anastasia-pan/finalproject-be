@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { Totem } = require("../models/totem");
 const { User } = require("../models/user");
+const { UserFavourites } = require("../models/userFavourites");
 const { findOrAddLocation } = require("./helpers.js");
 
 // ============================================ bulk find all by user ============================================///
@@ -42,9 +43,10 @@ router.post("/totem", async (req, res) => {
 
 // =================================================== bulk destroy EVERYTHING ============================================///
 router.delete("/", async (req, res) => {
-  await User.truncate();
-  await Totem.truncate();
-  res.status(200).json({ msg: `They're all gone!` });
+  await Totem.destroy({ where: {} });
+  await User.destroy({ where: {} });
+  await UserFavourites.destroy({ where: {} });
+  res.status(200).json({ msg: `Users, favourites, and Totems gone!` });
 });
 
 // =================================================== bulk destroy totems ============================================///
