@@ -56,8 +56,9 @@ router.get("/name/:name", async (req, res) => {
   const location = await Location.findOne({
     where: { id: totem.LocationId },
   });
-
-  totem.location = location;
+  const locationname = { locationname: location.name };
+  const combined = { ...totem, ...locationname };
+  console.log(combined);
   res.status(200).json(totem);
 });
 
@@ -70,8 +71,6 @@ router.get("/name/:name", async (req, res) => {
 //   console.log(totemsreturned);
 //   res.status(200).json({ totemsreturned });
 // });
-
-
 
 //===================================== fetch all totems by date======================================//
 router.get("/date/order", async (req, res) => {
@@ -118,8 +117,7 @@ router.post("/:userid", async (req, res) => {
     LocationId: returnedlocation.id,
     description: req.body.description,
     image: req.body.image,
-    illustration:req.body.illustration,
-    
+    illustration: req.body.illustration,
   });
   res.status(201).json(totem);
 });
