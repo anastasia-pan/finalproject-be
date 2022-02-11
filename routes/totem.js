@@ -2,28 +2,9 @@ const router = require("express").Router();
 
 //import model schema
 const { Totem } = require("../models/totem");
-const { Location } = require("../models/location");
 const { User } = require("../models/user");
 const { Sequelize } = require("sequelize");
-const { user } = require("pg/lib/defaults");
-
-// const { findOrAddLocation } = require("./helpers.js");
-
-//THE PATH TO ALL THESE ROUTES IS BASEURL/totem
-
-const findOrAddLocation = async (locationparam) => {
-  const existinglocations = await Location.findAll({
-    where: { name: locationparam },
-  });
-  if (existinglocations.length === 1) {
-    let returnedlocation = existinglocations[0];
-    return returnedlocation;
-  }
-  let returnedlocation = await Location.create({
-    name: locationparam,
-  });
-  return returnedlocation;
-};
+const { findOrAddLocation } = require("./helpers.js");
 
 //=====================get all totems ====================//
 
@@ -44,7 +25,11 @@ router.get("/getalladmin", async (req, res) => {
 router.get("/:id", async (req, res) => {
   console.log(req);
   const totem = await Totem.findOne({ where: { id: req.params.id } });
-  res.status(200).json(totem);
+
+  const location = await totem.getLocation();
+  res
+    .status(200)
+    .json({ ...totem.get({ plain: true }), location: location.name });
 });
 
 //============================ fetch one admin totem by name ==============================//
@@ -53,24 +38,11 @@ router.get("/name/:name", async (req, res) => {
   const totem = await Totem.findOne({
     where: Sequelize.and({ UseriD: user.id }, { name: req.params.name }),
   });
-  const location = await Location.findOne({
-    where: { id: totem.LocationId },
-  });
-  const locationname = { locationname: location.name };
-  const combined = { ...totem, ...locationname };
-  console.log(combined);
-  res.status(200).json(totem);
+  const location = await totem.getLocation();
+  res
+    .status(200)
+    .json({ ...totem.get({ plain: true }), location: location.name });
 });
-
-// //===================================== fetch all totems by date======================================//
-// router.get("/date/find/:date", async (req, res) => {
-//   const totemsreturned = await Totem.findAll({
-//     where: { date: parseInt(req.params.date) },
-//   });
-//   console.log("111!!!!!");
-//   console.log(totemsreturned);
-//   res.status(200).json({ totemsreturned });
-// });
 
 //===================================== fetch all totems by date======================================//
 router.get("/date/order", async (req, res) => {

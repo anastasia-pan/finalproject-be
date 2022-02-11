@@ -33,8 +33,7 @@ router.post("/:userid/:totemid", async (req, res) => {
   const totem = await Totem.findOne({
     where: { id: req.params.totemid },
   });
-  console.log(user);
-  console.log(totem);
+
   const favourite = await UserFavourites.create({
     UserId: user.id,
     TotemId: totem.id,
