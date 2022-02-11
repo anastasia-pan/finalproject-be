@@ -53,6 +53,11 @@ router.get("/name/:name", async (req, res) => {
   const totem = await Totem.findOne({
     where: Sequelize.and({ UseriD: user.id }, { name: req.params.name }),
   });
+  const location = await Location.findOne({
+    where: { id: totem.LocationId },
+  });
+
+  totem.location = location;
   res.status(200).json(totem);
 });
 
@@ -66,6 +71,8 @@ router.get("/name/:name", async (req, res) => {
 //   res.status(200).json({ totemsreturned });
 // });
 
+
+
 //===================================== fetch all totems by date======================================//
 router.get("/date/order", async (req, res) => {
   const adminuser = await User.findOne({
@@ -75,6 +82,20 @@ router.get("/date/order", async (req, res) => {
     where: { UserId: adminuser.id },
     order: [["date", "ASC"]],
   });
+  console.log(JSON.stringify(totemsreturned, null, 2));
+  res.status(200).json(totemsreturned);
+});
+
+//===================================== fetch all totems by date======================================//
+router.get("/date/order/:userid", async (req, res) => {
+  const adminuser = await User.findOne({
+    where: { name: "admin" },
+  });
+  const totemsreturned = await Totem.findAll({
+    where: { UserId: [adminuser.id, req.params.userid] },
+    order: [["date", "ASC"]],
+  });
+  console.log(JSON.stringify(totemsreturned, null, 2));
   res.status(200).json(totemsreturned);
 });
 //===================================== fetch all totems by userID======================================//

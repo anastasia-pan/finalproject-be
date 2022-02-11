@@ -81,7 +81,6 @@ router.post("/login", login);
 
 router.get("/getall", async (req, res) => {
   const user = await User.findAll({});
-  console.log(user);
   res.status(200).json(user);
 });
 
@@ -101,7 +100,6 @@ router.get("/favourites/:id", async (req, res) => {
     );
   }
 
-  console.log(user);
   res.status(200).json(totemslist);
 });
 
@@ -117,7 +115,6 @@ router.delete("/:id", async (req, res) => {
 
 //===================================== fetch one user ======================================//
 router.get("/:id", async (req, res) => {
-  console.log(req);
   const user = await User.findOne({ where: { id: req.params.id } });
   res.status(200).json({ msg: user });
 });

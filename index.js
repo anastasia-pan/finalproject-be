@@ -25,8 +25,6 @@ const {
 } = require("./middleware/auth");
 // const { FORCE } = require("sequelize/dist/lib/index-hints");
 
-console.log(process.env.DATABASE_URL);
-
 const app = express();
 
 app.use(express.json());
