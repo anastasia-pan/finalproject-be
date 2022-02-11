@@ -39,6 +39,9 @@ router.get("/name/:name", async (req, res) => {
     const totem = await Totem.findOne({
       where: Sequelize.and({ UserId: user.id }, { name: req.params.name }),
     });
+    if (totem === null) {
+      res.status(404).json({ msg: "obj not found" });
+    }
     const location = await totem.getLocation();
     res
       .status(200)
