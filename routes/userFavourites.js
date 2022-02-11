@@ -13,13 +13,18 @@ router.get("/:userid", async (req, res) => {
       UserId: req.params.userid,
     },
   });
-  console.log(favTotems);
+  console.log(req.params.userid);
   let favouriteTotems = [];
   for (let i of favTotems) {
-    const newTotem = await Totem.findOne({
+    let newTotem = await Totem.findOne({
       where: { id: i.TotemId },
     });
-    favouriteTotems.push(newTotem);
+    const location = await newTotem.getLocation();
+    let newnewTotem = {
+      ...newTotem.get({ plain: true }),
+      location: location.name,
+    };
+    favouriteTotems.push(newnewTotem);
   }
   res.status(200).json(favouriteTotems);
 });
@@ -33,8 +38,7 @@ router.post("/:userid/:totemid", async (req, res) => {
   const totem = await Totem.findOne({
     where: { id: req.params.totemid },
   });
-  console.log(user);
-  console.log(totem);
+
   const favourite = await UserFavourites.create({
     UserId: user.id,
     TotemId: totem.id,
