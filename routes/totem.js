@@ -37,7 +37,7 @@ router.get("/name/:name", async (req, res) => {
   try {
     const user = await User.findOne({ where: { name: "admin" } });
     const totem = await Totem.findOne({
-      where: Sequelize.and({ UseriD: user.id }, { name: req.params.name }),
+      where: Sequelize.and({ UserId: user.id }, { name: req.params.name }),
     });
     const location = await totem.getLocation();
     res
