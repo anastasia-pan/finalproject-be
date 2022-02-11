@@ -34,14 +34,19 @@ router.get("/:id", async (req, res) => {
 
 //============================ fetch one admin totem by name ==============================//
 router.get("/name/:name", async (req, res) => {
-  const user = await User.findOne({ where: { name: "admin" } });
-  const totem = await Totem.findOne({
-    where: Sequelize.and({ UseriD: user.id }, { name: req.params.name }),
-  });
-  const location = await totem.getLocation();
-  res
-    .status(200)
-    .json({ ...totem.get({ plain: true }), location: location.name });
+  try {
+    const user = await User.findOne({ where: { name: "admin" } });
+    const totem = await Totem.findOne({
+      where: Sequelize.and({ UseriD: user.id }, { name: req.params.name }),
+    });
+    const location = await totem.getLocation();
+    res
+      .status(200)
+      .json({ ...totem.get({ plain: true }), location: location.name });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
 });
 
 //===================================== fetch all totems by date======================================//
